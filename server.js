@@ -10,11 +10,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-require("./app/routing/htmlroutes.js")(app);
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(bodyParser.text());
 
+require("./app/routing/apiroutes.js")(app);
 require("./app/routing/htmlroutes.js")(app);
 
 app.listen(PORT, function() {
