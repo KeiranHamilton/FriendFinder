@@ -1,44 +1,61 @@
-var friendsData = require("../data/friends.js");
+// Dependencies
+var friends = require("../data/friends.js");
 
+// Export the function
 module.exports = function(app) {
+  // Sets the get for the api/friends route
   app.get("/api/friends", function(req, res) {
-    res.json(friendsData);
+    res.json(friends);
   });
+
+  // Set the post for the api/friends route
   app.post("/api/friends", function(req, res) {
-    console.log(req.body.scores);
+    // Set variables only needed for the post
+    var difference = 40;
+    var matchName = "";
+    var matchPhoto = "";
 
-    // (name, photo, scores)
-    var user = req.body;
+    // For-each loop to go through the data in friends.js to find a match
+    friends.forEach(function(friend) {
+      // Variables for comparing matches
+      var matchedScoresArray = [];
+      var totalDifference = 40;
 
-    // parseInt for scores
-    for (var i = 0; i < user.scores.length; i++) {
-      user.scores[i] = parseInt(user.scores[i]);
-    }
-
-    // default friend match is the first friend but result should show minimum difference
-    var bestFriendIndex = 0;
-    var minimumDifference = 40;
-
-    // in this for-loop, start off with a zero difference and compare the user and the ith friend scores, one set at a time
-    //  whatever the difference is, add to the total difference
-    for (var i = 0; i < friends.length; i++) {
-      var totalDifference = 0;
-      for (var i = 0; j < friends[i].scores.length; j++) {
-        var difference = Math.abs(user.scores[j] - friends[i].scores[j]);
-        totalDifference += difference;
+      // Function to assist in the addition reduce() below
+      function add(total, num) {
+        return total + num;
       }
 
-      // if there is a new minimum, change the best friend index and set the new minimum for next iteration comparisons
-      if (totalDifference < minimumDifference) {
-        bestFriendIndex = i;
-        minimumDifference = totalDifference;
+      // This loops through each item of the scores arrays
+      // from both the stored data and the new user,
+      // and then substracts, absolutes, and then pushes the
+      // new value to the matchedScoresArray
+      for (var i = 0; i < friend.scores.length; i++) {
+        matchedScoresArray.push(
+          Math.abs(parseInt(req.body.scores[i]) - parseInt(friend.scores[i]))
+        );
       }
-    }
 
-    // after finding match, add user to friend array
-    friends.push(user);
+      // This reduces the matchScoresArray into a single value in a variable
+      totalDifference = matchedScoresArray.reduce(add, 0);
 
-    // send back to browser the best friend match
-    res.json(friends[bestFriendIndex]);
+      // If the above value is smaller than the previous difference...
+      if (totalDifference < difference) {
+        // Set it as the previous difference...
+        difference = totalDifference;
+        // And set these variables to the appropriate friend match
+        matchName = friend.name;
+        matchPhoto = friend.photo;
+      }
+    });
+    // Once the cycle is complete, the match with the least difference will remain,
+    // and that data will be sent as a json object back to the client
+    res.json({
+      name: matchName,
+      photo: matchPhoto
+    });
+
+    // This adds the new users sent data object to friends.js
+    friends.push(req.body);
   });
 };
