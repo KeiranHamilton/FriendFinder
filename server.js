@@ -14,8 +14,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.text());
 
-require("./app/routing/apiroutes.js")(app);
 require("./app/routing/htmlroutes.js")(app);
+
+require("./app/routing/apiroutes.js")(app);
 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
