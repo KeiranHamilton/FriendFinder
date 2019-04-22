@@ -51,13 +51,13 @@ var friends = [
     name: "Kerry Washington",
     photo:
       "https://harvardmagazine.com/sites/default/files/styles/4x3_main/public/img/article/0116/iStock_000018424913_Large.jpg?itok=4i7HYTVp",
-    scores: ["5", "1", "2", "1", "3", "4", "1", "3", "3", "4"]
+    scores: ["5", "2", "2", "3", "3", "4", "2", "3", "3", "4"]
   },
   {
     name: "Peggy Bundy",
     photo:
       "https://hobbydb-production.s3.amazonaws.com/processed_uploads/subject_photo/subject_photo/image/42329/1535655170-22390-6712/Peggy_20Bundy_large.jpg",
-    scores: ["1", "1", "5", "5", "5", "5", "5", "5", "5", "1"]
+    scores: ["3", "2", "5", "3", "5", "4", "5", "5", "2", "4"]
   }
 ];
 
